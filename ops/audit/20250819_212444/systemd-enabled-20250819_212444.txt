@@ -1,0 +1,8 @@
+caddy-api.service
+caddy.service
+docker.service
+eventicro-api-preview.service
+eventicro-ui-preview.service
+eventicro-ui.service
+tailscaled.service
+docker.socket

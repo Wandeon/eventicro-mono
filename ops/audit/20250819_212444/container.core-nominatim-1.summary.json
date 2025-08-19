@@ -1,0 +1,15 @@
+{
+  "name": "core-nominatim-1",
+  "image": "mediagis/nominatim:4.4",
+  "binds": [
+    "core_nominatim-data:/var/lib/postgresql/14/main:rw"
+  ],
+  "env_keys": [
+    "PBF_URL",
+    "NOMINATIM_PASSWORD",
+    "THREADS",
+    "PATH",
+    "PROJECT_DIR",
+    "USER_AGENT"
+  ]
+}

@@ -1,0 +1,16 @@
+services:
+  postgres:
+    command:
+      - postgres
+      - -c
+      - listen_addresses=*
+      - -c
+      - wal_level=replica
+      - -c
+      - archive_mode=on
+      - -c
+      - archive_timeout=60s
+      - -c
+      - archive_command=/usr/local/bin/wal-g wal-push %p
+      - -c
+      - restore_command=/usr/local/bin/wal-g wal-fetch %f %p

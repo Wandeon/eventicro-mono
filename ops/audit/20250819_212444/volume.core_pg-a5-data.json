@@ -1,0 +1,16 @@
+[
+    {
+        "CreatedAt": "2025-08-18T02:45:57+02:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "62cf63d5ce7791b2a471ca7aa2e0fbd4787c212653ba57752a665d70f8a1d2ed",
+            "com.docker.compose.project": "core",
+            "com.docker.compose.version": "2.39.1",
+            "com.docker.compose.volume": "pg-a5-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/core_pg-a5-data/_data",
+        "Name": "core_pg-a5-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]

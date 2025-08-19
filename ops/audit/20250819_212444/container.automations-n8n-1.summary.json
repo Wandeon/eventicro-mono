@@ -1,0 +1,23 @@
+{
+  "name": "automations-n8n-1",
+  "image": "n8nio/n8n:latest",
+  "binds": [
+    "automations_n8n-data-fresh:/home/node/.n8n:rw"
+  ],
+  "env_keys": [
+    "WEBHOOK_URL",
+    "TZ",
+    "N8N_BASIC_AUTH_ACTIVE",
+    "N8N_BASIC_AUTH_USER",
+    "N8N_BASIC_AUTH_PASSWORD",
+    "N8N_ENCRYPTION_KEY",
+    "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
+    "PATH",
+    "NODE_VERSION",
+    "YARN_VERSION",
+    "NODE_ICU_DATA",
+    "NODE_ENV",
+    "N8N_RELEASE_TYPE",
+    "SHELL"
+  ]
+}

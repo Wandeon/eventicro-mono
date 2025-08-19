@@ -1,0 +1,171 @@
+name: core
+services:
+  minio:
+    command:
+      - server
+      - /data
+      - --console-address
+      - :9001
+    environment:
+      MINIO_ROOT_PASSWORD: KKzC1yIRHV0d0K0tcIuDX7GRMt7atwtJuZWy1DnY1Pj7FGd5flF9MvycyCdIOLzq
+      MINIO_ROOT_USER: u1carhgnnuhsek5krdaw
+    image: minio/minio:latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 9000
+        published: "9000"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 9001
+        published: "9001"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: minio-data
+        target: /data
+        volume: {}
+  nominatim:
+    environment:
+      NOMINATIM_PASSWORD: epaZ_wLawb6f3uZQY3v66xEQPrkRa_hWvIrZa472r4X-VL2AA-3ktY13Z95wdE-w
+      PBF_URL: https://download.geofabrik.de/europe/croatia-latest.osm.pbf
+      THREADS: "4"
+    image: mediagis/nominatim:4.4
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8080
+        published: "8070"
+        protocol: tcp
+    restart: unless-stopped
+    shm_size: "1073741824"
+    volumes:
+      - type: volume
+        source: nominatim-data
+        target: /var/lib/postgresql/14/main
+        volume: {}
+  postgres:
+    command:
+      - postgres
+      - -c
+      - listen_addresses=127.0.0.1
+      - -c
+      - wal_level=replica
+      - -c
+      - archive_mode=on
+      - -c
+      - archive_timeout=60s
+      - -c
+      - archive_command=/usr/local/bin/wal-g wal-push %p
+      - -c
+      - restore_command=/usr/local/bin/wal-g wal-fetch %f %p
+    environment:
+      AWS_ACCESS_KEY_ID: walgbot
+      AWS_ENDPOINT: http://minio:9000
+      AWS_REGION: us-east-1
+      AWS_S3_FORCE_PATH_STYLE: "true"
+      AWS_SECRET_ACCESS_KEY: g5qL6HScGZfvo7apaFw9iajEsJvy/vn09Ya3BD1WNos=
+      POSTGRES_PASSWORD: cs5SA7tuU6LqGpMoix6mu4ZypkZ2JKmq
+      POSTGRES_USER: postgres
+      WALG_S3_PREFIX: s3://backups/postgres
+    image: postgres:16
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: pg-a5-data
+        target: /var/lib/postgresql/data
+        volume: {}
+      - type: bind
+        source: /srv/walg/bin/wal-g
+        target: /usr/local/bin/wal-g
+        read_only: true
+        bind:
+          create_host_path: true
+  redis:
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --requirepass
+      - 406c5e33be2238d104a90387c839eaaeaccd54494b3dbbcbd8cc561515c74ffe
+    image: redis:7
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 6379
+        published: "6379"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: redis-data
+        target: /data
+        volume: {}
+  tileserver:
+    command:
+      - --port
+      - "8081"
+      - --public_url
+      - ""
+    image: maptiler/tileserver-gl:v5.3.1
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8081
+        published: "8081"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /srv/core/tiles
+        target: /data
+        bind:
+          create_host_path: true
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 3001
+        published: "3002"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: uptime-data
+        target: /app/data
+        volume: {}
+networks:
+  default:
+    name: core_default
+volumes:
+  minio-data:
+    name: core_minio-data
+  nominatim-data:
+    name: core_nominatim-data
+  pg-a5-data:
+    name: core_pg-a5-data
+  redis-data:
+    name: core_redis-data
+  uptime-data:
+    name: core_uptime-data

@@ -1,0 +1,18 @@
+# node / svelte
+node_modules/
+.svelte-kit/
+build/
+pnpm-lock.yaml#*   # partial lock backups
+*.log
+
+# env & secrets
+*.env
+ops/env/*.env
+secrets/
+ops/audit/**/*.tgz
+
+# docker noise
+**/.DS_Store
+**/.idea/
+**/.vscode/
+infra/core/tiles/*.mbtiles

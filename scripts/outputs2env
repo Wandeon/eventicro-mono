@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SRC="${1:-/srv/config/track-a-outputs.md}"
+DST="${2:-/etc/default/eventicro.env}"
+tmp="$(mktemp)"
+awk -F'|' '
+  NR>2 && NF>=3 {
+    key=$2; val=$3;
+    gsub(/^[ \t\r\n]+|[ \t\r\n]+$/,"",key);
+    gsub(/^[ \t\r\n]+|[ \t\r\n]+$/,"",val);
+    gsub(/`/,"",val);
+    # Only env-like keys; skip blanks and masked values
+    if (key ~ /^[A-Z0-9_]+$/ && val!="" && val!="***") {
+      gsub(/"/,"\\\"",val);               # escape double-quotes
+      print key "=\"" val "\"";
+    }
+  }
+' "$SRC" | sed 's/\r$//' | sort > "$tmp"
+install -m 0640 -o root -g root "$tmp" "$DST"
+rm -f "$tmp"
+echo "Wrote $DST from $SRC"

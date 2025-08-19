@@ -1,0 +1,21 @@
+[Unit]
+Description=EventiCRO UI preview (SvelteKit on 127.0.0.1:3000)
+After=network.target
+
+[Service]
+Type=simple
+Environment=HOME=/root
+Environment=NVM_DIR=/root/.nvm
+WorkingDirectory=/srv/app/ui
+# Always clear the port before starting
+ExecStartPre=/usr/bin/fuser -k 3000/tcp
+# Source nvm, pick LTS, then run vite preview
+ExecStart=/usr/bin/env bash -c '. "$NVM_DIR/nvm.sh"; nvm use --lts >/dev/null 2>&1 || true; exec node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 3000'
+Restart=always
+RestartSec=1
+NoNewPrivileges=true
+ProtectHome=read-only
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

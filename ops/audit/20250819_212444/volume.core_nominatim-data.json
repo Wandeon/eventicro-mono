@@ -1,0 +1,16 @@
+[
+    {
+        "CreatedAt": "2025-08-18T01:40:09+02:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "ade41bbe5fcf3674a2235373d832b700eeaf0d2305de65ae587f5c98d832c0fc",
+            "com.docker.compose.project": "core",
+            "com.docker.compose.version": "2.39.1",
+            "com.docker.compose.volume": "nominatim-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/core_nominatim-data/_data",
+        "Name": "core_nominatim-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]

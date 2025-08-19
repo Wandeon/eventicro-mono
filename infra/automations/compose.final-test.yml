@@ -1,0 +1,18 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-test
+    command: start
+    restart: unless-stopped
+    volumes:
+      - automations_n8n-data-fresh:/home/node/.n8n
+    networks:
+      - core_default
+
+networks:
+  core_default:
+    external: true
+
+volumes:
+  automations_n8n-data-fresh:
+    external: true

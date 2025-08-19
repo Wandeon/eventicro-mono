@@ -1,0 +1,10 @@
+NEXT                         LEFT        LAST                         PASSED        UNIT                         ACTIVATES
+Wed 2025-08-20 00:00:00 CEST 27min left  Tue 2025-08-19 00:00:00 CEST 23h ago       dpkg-db-backup.timer         dpkg-db-backup.service
+Wed 2025-08-20 00:00:00 CEST 27min left  Tue 2025-08-19 00:00:00 CEST 23h ago       logrotate.timer              logrotate.service
+Wed 2025-08-20 06:01:26 CEST 6h left     Tue 2025-08-19 06:14:30 CEST 17h ago       apt-daily-upgrade.timer      apt-daily-upgrade.service
+Wed 2025-08-20 07:18:03 CEST 7h left     Tue 2025-08-19 18:02:53 CEST 5h 29min ago  apt-daily.timer              apt-daily.service
+Wed 2025-08-20 11:24:57 CEST 11h left    Tue 2025-08-19 11:24:57 CEST 12h ago       systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
+Sun 2025-08-24 03:10:52 CEST 4 days left Sun 2025-08-17 11:08:03 CEST 2 days ago    e2scrub_all.timer            e2scrub_all.service
+Mon 2025-08-25 00:20:02 CEST 5 days left Mon 2025-08-18 00:50:12 CEST 1 day 22h ago fstrim.timer                 fstrim.service
+
+7 timers listed.

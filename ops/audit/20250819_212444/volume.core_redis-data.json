@@ -1,0 +1,16 @@
+[
+    {
+        "CreatedAt": "2025-08-18T01:40:09+02:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "8f276342c47f801f27cad9bb5c433e53e85790ba0c5a56203bf000300f135674",
+            "com.docker.compose.project": "core",
+            "com.docker.compose.version": "2.39.1",
+            "com.docker.compose.volume": "redis-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/core_redis-data/_data",
+        "Name": "core_redis-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]

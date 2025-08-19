@@ -1,0 +1,16 @@
+[
+    {
+        "CreatedAt": "2025-08-18T01:40:09+02:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "a708f25a54cb49ebe6662107b6ea22568f524f731d03033d610ed9d6937dcd48",
+            "com.docker.compose.project": "core",
+            "com.docker.compose.version": "2.39.1",
+            "com.docker.compose.volume": "minio-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/core_minio-data/_data",
+        "Name": "core_minio-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]

@@ -1,0 +1,13 @@
+{
+  "name": "core-tileserver-1",
+  "image": "maptiler/tileserver-gl:v5.3.1",
+  "binds": [
+    "/srv/core/tiles:/data:rw"
+  ],
+  "env_keys": [
+    "PATH",
+    "NODE_ENV",
+    "CHOKIDAR_USEPOLLING",
+    "CHOKIDAR_INTERVAL"
+  ]
+}

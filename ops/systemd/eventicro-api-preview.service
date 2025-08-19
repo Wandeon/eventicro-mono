@@ -1,0 +1,18 @@
+[Unit]
+Description=EventiCRO API preview (Node on 127.0.0.1:8787)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/srv/app/src
+Environment=HOST=127.0.0.1
+Environment=PORT=8787
+Environment=NODE_ENV=production
+ExecStart=/root/.nvm/versions/node/v22.18.0/bin/node /srv/app/src/scripts/preview.js
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

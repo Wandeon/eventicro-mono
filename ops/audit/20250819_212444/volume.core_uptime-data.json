@@ -1,0 +1,16 @@
+[
+    {
+        "CreatedAt": "2025-08-18T01:40:09+02:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "a13f0929def88caf389fb3ea3dd3233f46471092ec3da8a2055b23c30534ec39",
+            "com.docker.compose.project": "core",
+            "com.docker.compose.version": "2.39.1",
+            "com.docker.compose.volume": "uptime-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/core_uptime-data/_data",
+        "Name": "core_uptime-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]

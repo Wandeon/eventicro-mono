@@ -1,0 +1,8 @@
+NAMES                IMAGE                           PORTS
+core-postgres-1      postgres:16                     127.0.0.1:5432->5432/tcp
+core-redis-1         redis:7                         127.0.0.1:6379->6379/tcp
+core-minio-1         minio/minio:latest              127.0.0.1:9000-9001->9000-9001/tcp
+core-nominatim-1     mediagis/nominatim:4.4          5432/tcp, 127.0.0.1:8070->8080/tcp
+core-tileserver-1    maptiler/tileserver-gl:v5.3.1   8080/tcp, 127.0.0.1:8081->8081/tcp
+automations-n8n-1    n8nio/n8n:latest                127.0.0.1:5678->5678/tcp
+core-uptime-kuma-1   louislam/uptime-kuma:1          127.0.0.1:3002->3001/tcp

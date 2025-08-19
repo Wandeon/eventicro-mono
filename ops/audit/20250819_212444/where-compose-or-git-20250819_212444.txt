@@ -1,0 +1,9 @@
+/srv/app/src/.git
+/srv/core/compose.yml
+/srv/core/docker-compose.override.yml
+/srv/automations/compose.yml
+/srv/automations/compose.test.yml
+/srv/automations/compose.override.yml
+/srv/automations/compose.final-test.yml
+/root/.oh-my-zsh/.git
+/root/.nvm/.git

@@ -1,0 +1,13 @@
+{
+  "name": "core-uptime-kuma-1",
+  "image": "louislam/uptime-kuma:1",
+  "binds": [
+    "core_uptime-data:/app/data:rw"
+  ],
+  "env_keys": [
+    "PATH",
+    "NODE_VERSION",
+    "YARN_VERSION",
+    "UPTIME_KUMA_IS_CONTAINER"
+  ]
+}

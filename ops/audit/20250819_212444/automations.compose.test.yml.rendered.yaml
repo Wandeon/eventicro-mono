@@ -1,0 +1,28 @@
+name: automations
+services:
+  n8n:
+    command:
+      - start
+    container_name: n8n-test
+    environment:
+      EXECUTIONS_MODE: queue
+      N8N_QUEUE_BULL_REDIS_HOST: core-redis-1
+      N8N_QUEUE_BULL_REDIS_PASSWORD: 406c5e33be2238d104a90387c839eaaeaccd54494b3dbbcbd8cc561515c74ffe
+      N8N_QUEUE_BULL_REDIS_PORT: "6379"
+    image: n8nio/n8n:latest
+    networks:
+      core_default: null
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: automations_n8n-data-fresh
+        target: /home/node/.n8n
+        volume: {}
+networks:
+  core_default:
+    name: core_default
+    external: true
+volumes:
+  automations_n8n-data-fresh:
+    name: automations_n8n-data-fresh
+    external: true

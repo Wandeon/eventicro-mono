@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Load env-first config if present
+if [ -f /etc/default/eventicro.env ]; then
+  set -a
+  . /etc/default/eventicro.env
+  set +a
+fi
+# Run from the app dir and start with the pinned Node
+cd /srv/app/ui
+exec /root/.nvm/versions/node/v22.18.0/bin/node build/index.js

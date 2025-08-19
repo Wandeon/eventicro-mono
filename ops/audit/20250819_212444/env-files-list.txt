@@ -1,0 +1,6 @@
+/root/repo-audit/staging/eventicro.env
+/srv/app/.env
+/srv/app/.env.bak.2025-08-19-031514
+/srv/automations/.env
+/srv/core/.env
+/srv/core/.env.bak.2025-08-19-005027

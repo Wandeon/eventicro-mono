@@ -1,0 +1,39 @@
+name: automations
+services:
+  n8n:
+    command:
+      - start
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_PASSWORD: ZtfETjJXE3pmnKtqdBt4btRe7CyJ9HrU
+      N8N_BASIC_AUTH_USER: admin
+      N8N_ENCRYPTION_KEY: 6859dea3e1563d3dab49760a5a754c9e916ae08d08330f523a2ddff9489574b1
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      TZ: Europe/Zagreb
+      WEBHOOK_URL: https://n8n.eventicro.hr
+    image: n8nio/n8n:latest
+    networks:
+      core_default: null
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 5678
+        published: "5678"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: n8n-data
+        target: /home/node/.n8n
+        volume: {}
+networks:
+  core_default:
+    name: core_default
+    external: true
+  default:
+    name: automations_default
+volumes:
+  n8n-data:
+    name: automations_n8n-data-fresh
+    external: true

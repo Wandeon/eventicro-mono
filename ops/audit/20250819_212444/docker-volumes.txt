@@ -1,0 +1,7 @@
+automations_n8n-data
+automations_n8n-data-fresh
+core_minio-data
+core_nominatim-data
+core_pg-a5-data
+core_redis-data
+core_uptime-data

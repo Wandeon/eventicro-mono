@@ -1,0 +1,16 @@
+[
+    {
+        "CreatedAt": "2025-08-18T19:10:06+02:00",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.config-hash": "41f65c150cec1604513e4da6442d38554ad7a361a32d76c0c5d3734d5efb1b92",
+            "com.docker.compose.project": "automations",
+            "com.docker.compose.version": "2.39.1",
+            "com.docker.compose.volume": "n8n-data-fresh"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/automations_n8n-data-fresh/_data",
+        "Name": "automations_n8n-data-fresh",
+        "Options": null,
+        "Scope": "local"
+    }
+]

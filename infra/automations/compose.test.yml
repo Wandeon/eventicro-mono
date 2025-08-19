@@ -1,0 +1,23 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-test
+    command: start
+    restart: unless-stopped
+    environment:
+      EXECUTIONS_MODE: "queue"
+      N8N_QUEUE_BULL_REDIS_HOST: "core-redis-1"
+      N8N_QUEUE_BULL_REDIS_PORT: "6379"
+      N8N_QUEUE_BULL_REDIS_PASSWORD: "406c5e33be2238d104a90387c839eaaeaccd54494b3dbbcbd8cc561515c74ffe"
+    volumes:
+      - automations_n8n-data-fresh:/home/node/.n8n
+    networks:
+      - core_default
+
+networks:
+  core_default:
+    external: true
+
+volumes:
+  automations_n8n-data-fresh:
+    external: true

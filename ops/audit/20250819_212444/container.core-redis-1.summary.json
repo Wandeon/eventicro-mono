@@ -1,0 +1,14 @@
+{
+  "name": "core-redis-1",
+  "image": "redis:7",
+  "binds": [
+    "core_redis-data:/data:rw"
+  ],
+  "env_keys": [
+    "PATH",
+    "GOSU_VERSION",
+    "REDIS_VERSION",
+    "REDIS_DOWNLOAD_URL",
+    "REDIS_DOWNLOAD_SHA"
+  ]
+}

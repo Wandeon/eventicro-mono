@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=root
+User=eventicro-ui
 WorkingDirectory=/srv/app/ui
 ExecStart=/usr/local/bin/run-eventicro-ui
 Restart=always
@@ -12,7 +12,6 @@ RestartSec=3
 # CRITICAL: Force the app to listen on the correct IP
 Environment="HOST=127.0.0.1"
 Environment="PORT=3000"
-Environment="HOME=/root"
 
 [Install]
 WantedBy=multi-user.target

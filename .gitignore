@@ -2,7 +2,7 @@
 node_modules/
 .svelte-kit/
 build/
-pnpm-lock.yaml#*   # partial lock backups
+pnpm-lock.yaml*   # lockfile and backups
 *.log
 
 # env & secrets
@@ -16,3 +16,4 @@ ops/audit/**/*.tgz
 **/.idea/
 **/.vscode/
 infra/core/tiles/*.mbtiles
+*.bak*

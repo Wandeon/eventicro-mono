@@ -4,12 +4,12 @@ After=network.target
 
 [Service]
 Type=simple
-User=root
+User=eventicro-api
 WorkingDirectory=/srv/app/src
 Environment=HOST=127.0.0.1
 Environment=PORT=8787
 Environment=NODE_ENV=production
-ExecStart=/root/.nvm/versions/node/v22.18.0/bin/node /srv/app/src/scripts/preview.js
+ExecStart=/usr/bin/env node /srv/app/src/scripts/preview.js
 Restart=always
 RestartSec=2
 NoNewPrivileges=true

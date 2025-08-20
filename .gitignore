@@ -16,3 +16,6 @@ ops/audit/**/*.tgz
 **/.idea/
 **/.vscode/
 infra/core/tiles/*.mbtiles
+
+# Large tiles
+infra/core/tiles/*.mbtiles

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# List of sensitive globs (git pathspecs)
+SENSITIVE_GLOBS=(
+  "ops/*"
+  "ops/**"
+  "infra/*"
+  "infra/**"
+  "scripts/*"
+  "scripts/**"
+  "apps/ui/src/lib/server/*"
+  "apps/ui/src/lib/server/**"
+  "apps/ui/src/routes/**/_server.*"
+  "apps/ui/src/routes/**/+page.server.*"
+)
+
+changed=$(git diff --cached --name-only)
+[ -z "$changed" ] && exit 0
+
+# Check if commit message contains the allow tag
+ALLOW_TAG="[allow-sensitive]"
+# Read the staged commit message if present (for `git commit -F/-m` we won't have it yet)
+COMMIT_MSG_FILE=".git/COMMIT_EDITMSG"
+commit_msg=""
+[ -f "$COMMIT_MSG_FILE" ] && commit_msg=$(cat "$COMMIT_MSG_FILE" || true)
+
+# Scan changed files against sensitive globs
+hit=false
+for g in "${SENSITIVE_GLOBS[@]}"; do
+  if grep -Eq "^$(echo "$g" | sed 's/\*/.*?/g; s/\./\\./g; s/\//\\\//g')" <<<"$changed"; then
+    hit=true
+    break
+  fi
+done
+
+if [ "$hit" = true ]; then
+  if [[ "$commit_msg" == *"$ALLOW_TAG"* ]]; then
+    echo "pre-commit: sensitive paths changed but allow tag present — proceeding."
+    exit 0
+  fi
+  echo "pre-commit: ❌ sensitive paths detected in this commit."
+  echo "Add $ALLOW_TAG to your **PR title** (and explain in PR body), then re-commit with an updated message if needed."
+  echo "Touched paths:"
+  echo "$changed"
+  exit 1
+fi

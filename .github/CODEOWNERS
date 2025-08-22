@@ -1,0 +1,16 @@
+# Owners must approve PRs that touch these areas.
+# Adjust handles as needed (GitHub usernames).
+# More specific rules should be placed above generic ones.
+
+# Critical ops + infra
+/ops/**        @Wandeon
+/infra/**      @Wandeon
+/scripts/**    @Wandeon
+
+# UI server-side code (SSR endpoints, DB access)
+/apps/ui/src/lib/server/**          @Wandeon
+/apps/ui/src/routes/**/_server.*    @Wandeon
+/apps/ui/src/routes/**/+page.server.* @Wandeon
+
+# Everything else defaults to repo owner (optional)
+/* @Wandeon

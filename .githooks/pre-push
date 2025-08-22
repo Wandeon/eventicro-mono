@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Basic build check for UI before pushing (non-fatal if UI unchanged)
+if git diff --name-only --cached | grep -qE '^apps/ui/'; then
+  echo "pre-push: UI changed; verifying build…"
+  if command -v pnpm >/dev/null 2>&1; then
+    ( pnpm -C apps/ui install --frozen-lockfile && pnpm -C apps/ui build ) || {
+      echo "pre-push: ❌ UI build failed; aborting push."; exit 1;
+    }
+  else
+    echo "pre-push: pnpm not found; skipping UI build check."
+  fi
+fi

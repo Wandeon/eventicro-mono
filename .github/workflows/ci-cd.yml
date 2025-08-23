@@ -36,14 +36,15 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
     
-    - name: Install dependencies (UI)
-      working-directory: apps/ui
+    - name: Install dependencies
       run: npm ci
     
-    - name: Install dependencies (API)
-      working-directory: apps/api
-      run: npm ci
+    - name: Install app dependencies
+      run: |
+        cd apps/ui && npm ci
+        cd ../api && npm ci
     
     - name: Run tests (UI)
       working-directory: apps/ui

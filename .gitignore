@@ -20,6 +20,7 @@ infra/core/tiles/*.mbtiles
 # Large tiles
 infra/core/tiles/*.mbtiles
 
+
 # Backup files
 *.bak
 *.bak.*
@@ -99,3 +100,12 @@ public
 # Temporary folders
 tmp/
 temp/
+
+infra/core/tiles/*.mbtiles
+
+# Ignore backup/junk files
+*.bak*
+*~
+.DS_Store
+Thumbs.db
+

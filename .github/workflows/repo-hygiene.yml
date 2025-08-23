@@ -1,0 +1,19 @@
+name: Repo hygiene
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  no-bak-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if backup files are present
+        run: |
+          set -e
+          if git ls-files '*.bak*' | grep -q .; then
+            echo "::error::Backup files (*.bak*) detected in the repo. Remove them and update .gitignore."
+            git ls-files '*.bak*'
+            exit 1
+          fi

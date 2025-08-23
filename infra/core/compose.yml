@@ -6,6 +6,12 @@ services:
     volumes:
       - redis-data:/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   minio:
     image: minio/minio:latest
@@ -19,6 +25,12 @@ services:
     volumes:
       - minio-data:/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   tileserver:
     image: maptiler/tileserver-gl:v5.3.1
@@ -28,6 +40,12 @@ services:
     ports:
       - "127.0.0.1:8081:8081"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   nominatim:
     image: mediagis/nominatim:4.4
@@ -41,6 +59,12 @@ services:
     ports:
       - "127.0.0.1:8070:8080"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 60s
+      timeout: 30s
+      retries: 3
+      start_period: 300s
 
   uptime-kuma:
     image: louislam/uptime-kuma:1
@@ -49,6 +73,12 @@ services:
     ports:
       - "127.0.0.1:3002:3001"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   postgres:
     image: postgres:16
@@ -66,9 +96,14 @@ services:
       - "archive_command=/usr/local/bin/wal-g wal-push %p"
       - "-c"
       - "restore_command=/usr/local/bin/wal-g wal-fetch %f %p"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "shared_buffers=256MB"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: eventicro
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
@@ -81,7 +116,12 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     restart: unless-stopped
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 volumes:
   pg-a5-data: {}

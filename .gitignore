@@ -20,3 +20,9 @@ infra/core/tiles/*.mbtiles
 # Large tiles
 infra/core/tiles/*.mbtiles
 infra/core/tiles/*.mbtiles
+
+# Ignore backup/junk files
+*.bak*
+*~
+.DS_Store
+Thumbs.db

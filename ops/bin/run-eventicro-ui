@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Exit on error and handle pipe failures
+set -eo pipefail
+
+# Load Node from NVM
+export NVM_DIR="/root/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# Ensure an LTS version of Node is active
+nvm use --lts >/dev/null 2>&1 || { nvm install --lts >/dev/null && nvm use --lts >/dev/null; }
+
+# Load the application's environment variables
+[ -f /etc/default/eventicro.env ] && set -a && . /etc/default/eventicro.env && set +a
+
+# Execute the SvelteKit server, replacing the shell process
+exec node /srv/app/ui/build/index.js

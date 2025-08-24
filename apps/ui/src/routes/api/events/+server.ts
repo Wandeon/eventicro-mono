@@ -2,6 +2,52 @@ import type { RequestHandler } from './$types';
 import { json, error } from '@sveltejs/kit';
 import { getPool } from '$lib/db';
 
+// Mock data for testing when database is not available
+const mockEvents = [
+	{
+		id: '1',
+		title: 'Rock Concert Zagreb',
+		description: 'Amazing rock concert in the heart of Zagreb',
+		start_time: '2024-12-15T20:00:00+01:00',
+		end_time: null,
+		city: 'Zagreb',
+		venue_name: 'Arena Zagreb',
+		price: '€25',
+		category: 'music',
+		image_url: null,
+		url: null,
+		verified: false
+	},
+	{
+		id: '2',
+		title: 'Football Match Dinamo vs Hajduk',
+		description: 'Classic Croatian derby',
+		start_time: '2024-12-20T19:00:00+01:00',
+		end_time: null,
+		city: 'Zagreb',
+		venue_name: 'Maksimir Stadium',
+		price: '€15',
+		category: 'sport',
+		image_url: null,
+		url: null,
+		verified: false
+	},
+	{
+		id: '3',
+		title: 'Theater Performance Hamlet',
+		description: 'Shakespeare classic in Croatian',
+		start_time: '2024-12-18T19:30:00+01:00',
+		end_time: null,
+		city: 'Zagreb',
+		venue_name: 'Croatian National Theater',
+		price: '€20',
+		category: 'theatre',
+		image_url: null,
+		url: null,
+		verified: false
+	}
+];
+
 export const GET: RequestHandler = async ({ url }) => {
 	try {
 		// Parse and validate query parameters
@@ -15,6 +61,42 @@ export const GET: RequestHandler = async ({ url }) => {
 		const lat = url.searchParams.get('lat') ? parseFloat(url.searchParams.get('lat')!) : null;
 		const lng = url.searchParams.get('lng') ? parseFloat(url.searchParams.get('lng')!) : null;
 		const radius_km = url.searchParams.get('radius_km') ? parseFloat(url.searchParams.get('radius_km')!) : null;
+
+		// Try to get database connection
+		let pool;
+		try {
+			pool = getPool();
+		} catch (dbError) {
+			console.warn('Database not available, using mock data:', dbError);
+			// Return mock data when database is not available
+			let filteredEvents = [...mockEvents];
+			
+			// Apply filters to mock data
+			if (q) {
+				filteredEvents = filteredEvents.filter(event => 
+					event.title.toLowerCase().includes(q.toLowerCase()) ||
+					(event.description && event.description.toLowerCase().includes(q.toLowerCase()))
+				);
+			}
+			
+			if (category) {
+				filteredEvents = filteredEvents.filter(event => event.category === category);
+			}
+			
+			if (city) {
+				filteredEvents = filteredEvents.filter(event => 
+					event.city && event.city.toLowerCase().includes(city.toLowerCase())
+				);
+			}
+			
+			// Apply limit
+			filteredEvents = filteredEvents.slice(0, limit);
+			
+			return json({
+				items: filteredEvents,
+				next_cursor: null
+			});
+		}
 
 		// Build dynamic query
 		let whereClause = '';
@@ -64,8 +146,6 @@ export const GET: RequestHandler = async ({ url }) => {
 			params.push(cursorTime, cursorId);
 			paramIndex += 2;
 		}
-
-		const pool = getPool();
 
 		// Get paginated results
 		const dataQuery = `

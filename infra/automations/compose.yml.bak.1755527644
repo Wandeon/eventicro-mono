@@ -1,0 +1,15 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    ports: ["127.0.0.1:5678:5678"]
+    environment:
+      - EXECUTIONS_MODE=queue
+      - N8N_QUEUE_BULL_REDIS_HOST=core-redis-1
+      - N8N_QUEUE_BULL_REDIS_PORT=6379
+      - N8N_QUEUE_BULL_REDIS_PASSWORD=${REDIS_PASSWORD}
+      - GENERIC_TIMEZONE=Europe/Zagreb
+      # choose one for webhooks (your outputs list N8N_WEB_URL / API base)
+      - WEBHOOK_URL=https://api.eventicro.hr
+    volumes:
+      - n8n-data:/home/node/.n8n
+    restart: unless-stopped

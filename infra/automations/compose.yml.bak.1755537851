@@ -1,0 +1,39 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest   # multi-arch, OK on arm64
+    restart: unless-stopped
+    entrypoint: ["/usr/local/bin/n8n"]   # <- call CLI directly
+    command: ["start"]                   # <- web/UI role
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      TZ: Europe/Zagreb
+      # auth + crypto
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: "${N8N_BASIC_AUTH_USER}"
+      N8N_BASIC_AUTH_PASSWORD: "${N8N_BASIC_AUTH_PASSWORD}"
+      N8N_ENCRYPTION_KEY: "${N8N_ENCRYPTION_KEY}"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+
+      # webhooks
+      WEBHOOK_URL: "${N8N_WEB_URL}"
+
+      # queue mode (Redis on the core stack)
+      EXECUTIONS_MODE: "queue"
+      N8N_RUNNERS_ENABLED: "true"
+      OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS: "true"
+      N8N_QUEUE_BULL_REDIS_HOST: "core-redis-1"
+      N8N_QUEUE_BULL_REDIS_PORT: "6379"
+      N8N_QUEUE_BULL_REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    volumes:
+      - n8n-data-fresh:/home/node/.n8n
+    networks:
+      - default
+      - core_default
+
+networks:
+  core_default:
+    external: true
+
+volumes:
+  n8n-data-fresh: {}

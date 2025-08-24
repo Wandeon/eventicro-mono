@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: eventicro-postgres
+    environment:
+      POSTGRES_DB: eventicro
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cs5SA7tuU6LqGpMoix6mu4ZypkZ2JKmq
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./apps/ui/db-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    restart: unless-stopped
+    command: postgres -c listen_addresses='*' -c password_encryption=scram-sha-256
+
+volumes:
+  postgres_data:

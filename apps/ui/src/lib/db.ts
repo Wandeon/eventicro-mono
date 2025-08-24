@@ -7,7 +7,8 @@ export function getPool(): Pool {
 		const connectionString = process.env.POSTGRES_URL;
 		// Don't throw at module import time — initialize on first use
 		if (!connectionString) {
-			throw new Error('POSTGRES_URL is not set');
+			console.error('POSTGRES_URL environment variable is not set');
+			throw new Error('POSTGRES_URL is not set. Please configure your database connection.');
 		}
 
 		pool = new Pool({

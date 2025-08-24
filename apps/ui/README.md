@@ -1,38 +1,63 @@
-# sv
+# EventiCRO UI
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A SvelteKit-based frontend for the EventiCRO event management application.
 
-## Creating a project
+## Setup Instructions
 
-If you're seeing this, you've probably already done this step. Congrats!
+### 1. Install Dependencies
 
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+```bash
+npm install
+# or
+pnpm install
 ```
 
-## Developing
+### 2. Database Setup
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+1. Create a PostgreSQL database
+2. Run the schema file: `psql -d your_database -f db-schema.sql`
+3. Set the `POSTGRES_URL` environment variable:
+   ```
+   POSTGRES_URL=postgresql://username:password@localhost:5432/your_database
+   ```
 
-```sh
+### 3. Environment Variables
+
+Create a `.env` file in the `apps/ui` directory with:
+
+```
+POSTGRES_URL=postgresql://username:password@localhost:5432/your_database
+NODE_ENV=development
+GIT_SHA=unknown
+```
+
+### 4. Run the Application
+
+```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# or
+pnpm dev
 ```
 
-## Building
+The application will be available at `http://127.0.0.1:3000`
 
-To create a production version of your app:
+## Features
 
-```sh
-npm run build
-```
+- Event listing with search and filtering
+- Interactive map view
+- Responsive design
+- Real-time database integration
 
-You can preview the production build with `npm run preview`.
+## API Endpoints
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- `GET /api/events` - List events with filtering and pagination
+- `POST /api/events` - Create new events
+- `GET /api/health` - Health check endpoint
+
+## Database Schema
+
+The application uses a PostgreSQL database with the following main table:
+
+- `app.events` - Stores event information including title, description, dates, location, etc.
+
+See `db-schema.sql` for the complete schema definition.

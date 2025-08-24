@@ -1,4 +1,5 @@
 <script lang="ts">
+	/* eslint-disable svelte/prefer-svelte-reactivity */
 	import { page } from '$app/stores';
 	// current query params
 	$: q = $page.url.searchParams.get('q') ?? '';
@@ -6,13 +7,13 @@
 	$: when = $page.url.searchParams.get('when') ?? '';
 
 	function link(params: Record<string, string | number | undefined>) {
-		const sp = new URLSearchParams($page.url.searchParams);
+		const currentParams = new URLSearchParams($page.url.searchParams.toString());
 		for (const [k, v] of Object.entries(params)) {
-			if (v === undefined || v === '') sp.delete(k);
-			else sp.set(k, String(v));
+			if (v === undefined || v === '') currentParams.delete(k);
+			else currentParams.set(k, String(v));
 		}
-		sp.delete('page'); // reset paging
-		return `/?${sp.toString()}`;
+		currentParams.delete('page'); // reset paging
+		return `/?${currentParams.toString()}`;
 	}
 
 	const cats = [
@@ -43,7 +44,7 @@
 
 <!-- When tabs -->
 <div class="mb-4 flex flex-wrap gap-2">
-	{#each [{ id: '', label: 'Sve' }, { id: 'today', label: 'Danas' }, { id: 'weekend', label: 'Vikend' }, { id: 'next-week', label: 'Sljedeći tjedan' }] as w}
+	{#each [{ id: '', label: 'Sve' }, { id: 'today', label: 'Danas' }, { id: 'weekend', label: 'Vikend' }, { id: 'next-week', label: 'Sljedeći tjedan' }] as w (w.id)}
 		<a
 			href={link({ when: w.id })}
 			class="rounded-full border px-3 py-1.5 text-sm transition {when === w.id
@@ -57,7 +58,7 @@
 
 <!-- Category chips -->
 <div class="mb-4 flex flex-wrap gap-2">
-	{#each cats as c}
+	{#each cats as c (c.id)}
 		<a
 			href={link({ cat: cat === c.id ? '' : c.id })}
 			class="rounded-full border px-3 py-1 text-xs transition {cat === c.id

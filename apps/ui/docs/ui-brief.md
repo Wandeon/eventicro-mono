@@ -1,4 +1,5 @@
 # EventiCRO — UI/UX Brief
+
 - Goals, audiences, and success metric (browse → view → attend/submit).
 - Breakpoints: 375/768/1024/1280. WCAG 2.1 AA.
 - Tokens: color, radius, spacing, font, elevations.
